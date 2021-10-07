@@ -6,8 +6,8 @@ class ZeroError(Exception):
         super().__init__(self.message)
 
 def test_generic():
-    a = 0
-    b = 6
+    a = 5
+    b = 5
     with pytest.raises(ZeroError):
         if a == 0:
             raise ZeroError
