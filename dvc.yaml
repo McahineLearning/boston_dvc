@@ -4,30 +4,30 @@ stages:
     deps:
     - src/get_data.py
     - src/load_data.py
-    - data_given/winequalityN.csv
+    - data_given/Boston.csv
     outs:
     - data/raw/Boston.csv
-  split_data:
-      cmd: python src/split_data.py --config=params.yaml
-      deps:
-      - src/split_data.py
-      - data/raw/Boston.csv
-      outs:
-      - data/processed/.csv
-      - data/processed/.csv
-  train_and_evaluate:
-    cmd: python src/train_and_evaluate.py --config=params.yaml
-    deps:
-      - data/processed/.csv
-      - data/processed/.csv
-      - src/train_and_evaluate.py
-    # params:
-    #   - estimators.ElasticNet.params.alpha
-    #   - estimators.ElasticNet.params.l1_ratio
-    metrics:
-      - reports/scores.json:
-          cache: false
-      - reports/params.json:
-          cache: false
-    outs:
-      - saved_models/model.joblib
+  # split_data:
+  #     cmd: python src/split_data.py --config=params.yaml
+  #     deps:
+  #     - src/split_data.py
+  #     - data/raw/Boston.csv
+  #     outs:
+  #     - data/processed/.csv
+  #     - data/processed/.csv
+  # train_and_evaluate:
+  #   cmd: python src/train_and_evaluate.py --config=params.yaml
+  #   deps:
+  #     - data/processed/.csv
+  #     - data/processed/.csv
+  #     - src/train_and_evaluate.py
+  #   # params:
+  #   #   - estimators.ElasticNet.params.alpha
+  #   #   - estimators.ElasticNet.params.l1_ratio
+  #   metrics:
+  #     - reports/scores.json:
+  #         cache: false
+  #     - reports/params.json:
+  #         cache: false
+  #   outs:
+  #     - saved_models/model.joblib

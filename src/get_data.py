@@ -14,6 +14,7 @@ def get_data(config_path):
     data_path = config['data_source']['s3_source']
     df = pd.read_csv(data_path, sep = ",")
     df.drop(columns= "Unnamed: 0", axis = 1, inplace= True)
+    print(df.head())
     return df
 
 
