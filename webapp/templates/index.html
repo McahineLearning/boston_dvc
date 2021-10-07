@@ -62,36 +62,23 @@
         width: 50px;
       }
 
-      .wrapper1, .wrapper2 {
-  width: 300px;
-  overflow-x: scroll;
-  overflow-y:hidden;
-}
-
-.wrapper1 {height: 20px; }
-.wrapper2 {height: 200px; }
-
-.div1 {
-  width:1000px;
-  height: 20px;
-}
-
-.div2 {
-  width:1000px;
-  height: 200px;
-  background-color: #88FF88;
-  overflow: auto;
-}
+    
     </style>
+    <style>
+        body {
+          background-image: url('todd-kent-178j8tJrNlc-unsplash.jpg');
+          background-repeat: no-repeat;
+          background-size: cover;
+          opacity: 0.8;
+        }
+        </style>
     <title>Boston Housing Project</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
     <h1>Boston Housing Predictor</h1>
-    <div class="wrapper1">
-        <div class="div1"></div>
-      </div>
+    
     <center>
     <div class="form">
     <form action="/predict" method="post">
