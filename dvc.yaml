@@ -15,19 +15,16 @@ stages:
       outs:
       - data/processed/train.csv
       - data/processed/test.csv
-  # train_and_evaluate:
-  #   cmd: python src/train_and_evaluate.py --config=params.yaml
-  #   deps:
-  #     - data/processed/.csv
-  #     - data/processed/.csv
-  #     - src/train_and_evaluate.py
-  #   # params:
-  #   #   - estimators.ElasticNet.params.alpha
-  #   #   - estimators.ElasticNet.params.l1_ratio
-  #   metrics:
-  #     - reports/scores.json:
-  #         cache: false
-  #     - reports/params.json:
-  #         cache: false
-  #   outs:
-  #     - saved_models/model.joblib
+  train_and_evaluate:
+    cmd: python src/train_and_evaluate.py --config=params.yaml
+    deps:
+      - data/processed/train.csv
+      - data/processed/test.csv
+      - src/train_and_evaluate.py
+    params:
+      - estimators.LinearRegression
+    metrics:
+      - reports/scores.json:
+          cache: false
+    outs:
+      - saved_models/model.joblib
