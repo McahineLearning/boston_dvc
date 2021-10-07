@@ -20,3 +20,5 @@ statsmodels
 pandas-profiling
 flask
 joblib
+tox
+pytest
