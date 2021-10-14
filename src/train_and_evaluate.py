@@ -11,7 +11,9 @@ from get_data import read_params
 import argparse
 import joblib
 import json
+from urllib.parse import urlparse
 from sklearn.linear_model import LinearRegression
+import mlflow
   
 
 def eval_metrics(actual, pred):
@@ -42,37 +44,35 @@ def train_and_evaluate(config_path):
     train_x = train.drop(target, axis=1)
     test_x = test.drop(target, axis=1)
 
-    lr = LinearRegression()
-    lr.fit(train_x, train_y)
+    mlflow_config = config["mlflow_config"]
+    remote_server_uri = mlflow_config["remote_server_uri"]
 
-    predicted_qualities = lr.predict(test_x)
+    mlflow.set_tracking_uri(remote_server_uri)
 
-    (rmse, mae, r2) = eval_metrics(test_y, predicted_qualities)
+    mlflow.set_experiment(mlflow_config["experiment_name"])
 
-    print("Linear Regression model :")
-    print("  RMSE: %s" % rmse)
-    print("  MAE: %s" % mae)
-    print("  R2: %s" % r2)
+    with mlflow.start_run(run_name=mlflow_config["run_name"]) as mlops_run:
 
-    #####################################################
-    scores_file = config["reports"]["scores"]
-    params_file = config["reports"]["params"]
+        lr = LinearRegression()
+        lr.fit(train_x, train_y)
 
-    with open(scores_file, "w") as f:
-        scores = {
-            "rmse": rmse,
-            "mae": mae,
-            "r2": r2
-        }
-        json.dump(scores, f, indent=4)
+        predicted_qualities = lr.predict(test_x)
 
+        (rmse, mae, r2) = eval_metrics(test_y, predicted_qualities)
 
-    #####################################################
+        mlflow.log_metric("rmse", rmse)
+        mlflow.log_metric("mae", mae)
+        mlflow.log_metric("r2", r2)
 
-    os.makedirs(model_dir, exist_ok=True)
-    model_path = os.path.join(model_dir, "model.joblib")
+        tracking_url_type_store = urlparse(mlflow.get_artifact_uri()).scheme
 
-    joblib.dump(lr, model_path)
+        if tracking_url_type_store != "file":
+            mlflow.sklearn.log_model(
+                lr, 
+                "model", 
+                registered_model_name= mlflow_config["registered_model_name"])
+        else:
+            mlflow.sklearn.load_model(lr, "model")
 
 
 if __name__ == "__main__":

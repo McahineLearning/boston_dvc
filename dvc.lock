@@ -7,8 +7,8 @@ stages:
       md5: b267733444c5898bd117cc9da8ef2178
       size: 37658
     - path: src/get_data.py
-      md5: 405b0d0e711e441117150156ed76ba4e
-      size: 694
+      md5: e42bc0990c0f342bfbce87e2d920dee2
+      size: 692
     - path: src/load_data.py
       md5: c66af851f9003b43e2ee59ac78ffbf12
       size: 726
@@ -42,8 +42,8 @@ stages:
       md5: c2d49eee7a186ee0ad1d32c3f4cef974
       size: 27532
     - path: src/train_and_evaluate.py
-      md5: c18de9fd8c05ade2a23cd8a1483eebbe
-      size: 2362
+      md5: 5f59665b9685cde33aef8bd039d684f3
+      size: 2353
     params:
       params.yaml:
         estimators.LinearRegression:
